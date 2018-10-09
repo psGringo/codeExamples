@@ -1,0 +1,21 @@
+[HttpGet]
+        public ActionResult Edit(int? id)
+        {
+            if (id == null)
+            {
+                return HttpNotFound();
+            }
+            BookContext db = new BookContext();
+            var book = db.Books.Find(id);
+            //var book = db.Books.Where(b => b.Id == id).FirstOrDefault();            
+            return View(book);
+        }
+ 
+        [HttpPost]
+        public ActionResult Edit(Book book)
+        {            
+            BookContext db = new BookContext();
+            db.Entry(book).State = EntityState.Modified;
+            db.SaveChanges();
+            return RedirectToAction("Show");// View(book);
+        }

@@ -1,0 +1,8 @@
+Topological topological = new Topological(G);
+            if (!topological.IsOrder())
+                throw new ArgumentException("Digraph is not acyclic.");
+            foreach (int v in topological.ReversePost)
+            {
+                foreach (DirectedEdge e in G.GetAdj(v))
+                   // do smth
+            }

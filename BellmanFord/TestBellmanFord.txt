@@ -1,0 +1,20 @@
+// BellmanFord
+            EdgeWeightedDigraph G3 = new EdgeWeightedDigraph("tinyEWDn.txt");
+            BellmanFordSP b = new BellmanFordSP(G3, 0);
+            if (!b.IsNegativeCycle())
+            {
+                Queue<DirectedEdge> q = new Queue<DirectedEdge>(b.PathTo(7));
+                foreach (DirectedEdge e in q)
+                {
+                    Console.WriteLine(e.From() + " - > " + e.To());
+                }
+            }
+            else
+            {                 
+                Console.WriteLine("There is negative cycle");
+                Queue<DirectedEdge> q = new Queue<DirectedEdge>(b.GetNegativeCycle());
+                foreach (DirectedEdge e in q)
+                {
+                    Console.WriteLine(e.From() + " - > " + e.To());
+                }
+            }

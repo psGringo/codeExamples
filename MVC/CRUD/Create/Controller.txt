@@ -1,0 +1,14 @@
+// Create
+        [HttpGet]
+        public ActionResult Create()
+        {
+            return View();
+        }
+        [HttpPost]
+        public ActionResult Create(Book book)
+        {
+            BookContext db = new BookContext();
+            db.Books.Add(book);
+            db.SaveChanges();
+            return RedirectToAction("Show");
+        }

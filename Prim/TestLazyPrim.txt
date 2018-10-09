@@ -1,0 +1,13 @@
+Console.WriteLine(" ");
+            Console.WriteLine("LazyPrimMST ");
+            LazyPrimMST lazyPrimMST = new LazyPrimMST(G);
+            Queue<Edge> minSpanningTreeQueue = new Queue<Edge>();
+            minSpanningTreeQueue= (Queue<Edge>)(lazyPrimMST.GetEdges());
+            Console.WriteLine("weight of minimal spanning tree tree is " + lazyPrimMST.GetWeight());
+ 
+            foreach (Edge e in minSpanningTreeQueue)
+            {
+                int v = e.Either();
+                int w = e.Other(v);
+                Console.WriteLine(v +" - " + w);
+            }
