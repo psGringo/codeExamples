@@ -1,0 +1,95 @@
+// Example of undirected grpah - Dfs, Bfs, IsPath, PathTo
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace DifferentAlgos
+{
+    public class Graph
+    {
+        public bool[] marked;
+        private int[] distTo;
+        private int[] edgeTo;
+
+        public int V { get; set; }
+        public int E { get; set; }
+        private List<int>[] adj;
+        private int[] ints;
+        public Graph(int V)
+        {
+            this.V = V;
+            this.E = 0;
+            adj = new List<int>[V];
+            for (int i = 0; i < adj.Length; i++)
+            {
+                adj[i] = new List<int>();
+            }
+        }
+        private void ValidateVertex(int v)
+        {
+            if ((v < 0) || (v >= V)) throw new ArgumentException("v shoud be between 0 and V-1");
+        }
+        public void AddEdge(int v,int w)
+        {
+            ValidateVertex(v);
+            ValidateVertex(w);
+            adj[v].Add(w);
+            adj[w].Add(v);
+            E++;
+        }
+        public IEnumerable<int> AdjVertices(int v)
+        {
+            ValidateVertex(v);
+            return adj[v];
+        }
+
+        public void Dfs(int s)
+        {
+            foreach (int v in AdjVertices(s))
+            {
+                if (!marked[v])
+                {
+                    marked[v] = true;
+                    Dfs(v);
+                }                
+            }
+        }
+        public void Bfs(int s)
+        {
+            Queue<int> q = new Queue<int>();
+            q.Enqueue(s);
+            while (q.Count != 0)
+            {
+                int v = q.Dequeue();
+                foreach (int w in AdjVertices(v))
+                {
+                    if (!marked[w])
+                    {
+                        distTo[w] = distTo[v] + 1;
+                        edgeTo[w] = v;
+                        marked[w] = true;
+                        q.Enqueue(w);
+                    }
+                }
+            }
+        }
+        public bool IsPath(int v)
+        {
+            ValidateVertex(v);
+            return  marked[v] = true;
+        }
+        public IEnumerable<int> PathTo(int v)
+        {
+            Stack<int> st = new Stack<int>();
+            int x;
+            for (x = v; distTo[x] != 0; x = edgeTo[x])
+            {
+                st.Push(x);
+            }
+            st.Push(x);
+            return st;
+        }
+    }
+}

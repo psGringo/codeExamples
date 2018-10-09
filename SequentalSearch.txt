@@ -1,0 +1,83 @@
+// Sequental Search
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace DifferentAlgos
+{
+    public class SequentalSearchST<Key, Value> : IEnumerable<Key>
+    {
+        private Node first;
+        private int n;
+        public SequentalSearchST()
+        {
+
+        }
+
+        public class Node
+        {
+            public Key key;
+            public Value val;
+            public Node next;
+            public Node(Key key, Value val, Node next)
+            {
+                this.key = key;
+                this.val = val;
+                this.next = next;
+            }
+        }
+
+        public void Put(Key key, Value val)
+        {
+            for (Node node = first; node != null; node = node.next)
+            {
+                if (key.Equals(node.key))
+                {
+                    node.val = val;
+                    return;
+                }
+            }
+            first = new Node(key, val, first);
+        }
+
+        public Value Get(Key key)
+        {
+            for (Node node = first; node != null; node = node.next)
+            {
+                if (key.Equals(node.key))
+                {
+                    return node.val;
+                }
+            }
+            return default(Value);
+        }
+
+        public IEnumerable<Key> Keys()
+        {
+            Queue<Key> q = new Queue<Key>();
+            for (Node node = first; node != null; node = node.next)
+            {
+                q.Enqueue(node.key);
+            }
+            return q;
+        }
+
+        public IEnumerator<Key> GetEnumerator()
+        {
+            Node temp = first;
+            while (temp != null)
+            {
+                yield return temp.key;
+                temp = temp.next;
+            }
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
+        }
+    }
+}

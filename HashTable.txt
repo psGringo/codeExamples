@@ -1,0 +1,48 @@
+// HashTable in decision for collisions
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace DifferentAlgos
+{
+    class SeparateChainsHashST<Key, Value>
+    {
+        private int M; // size of hash table
+        private SequentalSearchST<Key, Value>[] st;
+        public SeparateChainsHashST(int M)
+        {
+            this.M = M;
+            st = new SequentalSearchST<Key, Value>[M];
+            for (int i = 0; i < M; i++) st[i] = new SequentalSearchST<Key,Value>();                        
+        }
+        public int Hash(Key key)
+        {
+            return key.GetHashCode();
+        }
+        public Value Get(Key key)
+        {
+            return st[Hash(key)].Get(key);
+        }
+        public void Put(Key key, Value val)            
+        {
+            st[Hash(key)].Put(key, val);
+        }
+
+        public IEnumerable<Key> Keys()
+        {
+            Queue<Key> q = new Queue<Key>();
+            for (int i = 0; i < M; i++)
+            {
+                foreach (Key key in st[i].Keys())
+                {
+                    q.Enqueue(key);
+                }
+            }
+            return q;
+        }
+    }
+        
+    }
+}
